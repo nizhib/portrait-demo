@@ -1,5 +1,7 @@
 # Portrait Segmentation Demo
 
+![Demo screenshot](docs/example.png "Demo screenshot")
+
 This demo was originally built for [picsart.ai](https://www.picsart.ai/) hackathon.
 
 ## Requirements
