@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <title>Portrait Segmentation</title>
 
-  <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-  <link href="assets/css/bulma.min.css" rel="stylesheet">
-  <link href="assets/css/atelier-heath-light.css" rel="stylesheet">
+  <link href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.jsdelivr.net/npm/bulma@0.7.5/css/bulma.min.css" rel="stylesheet">
+  <link href="//cdn.jsdelivr.net/npm/highlightjs@9.12.0/styles/atelier-heath-light.css" rel="stylesheet">
 
   <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
   <link href="assets/images/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16">
@@ -37,7 +37,7 @@
   <script type="text/x-template" id="portrait">
     <div class="container">
       <div class="columns is-mobile">
-        <div class="column is-half-desktop is-full-mobile">
+        <div class="column is-two-thirds">
           <div class="field has-addons">
             <div class="control is-expanded">
               <input class="input" v-model="url" placeholder="http://example.com/image.png">
@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="columns is-mobile">
-        <div class="column is-one-quarter-desktop is-full-mobile">
+        <div class="column is-one-third">
           <h2 class="subtitle is-2">Photo</h2>
           <div class="card">
             <div class="card-image">
@@ -63,39 +63,37 @@
                   <img :src="url">
                 </template>
                 <template v-else>
-                  <img src="//lorempixel.com/390/390/">
+                  <img src="//placeimg.com/480/640/any">
                 </template>
               </figure>
             </div>
           </div>
           <br>
         </div>
-        <div class="column is-one-quarter-desktop is-full-mobile">
+        <div v-if="mask" class="column is-one-third">
           <h2 class="subtitle is-2">Mask</h2>
-          <div v-if="mask" class="card">
-            <div class="card-image">
-              <figure class="image is-3by4">
-                <img :src="'data:image/png;base64,' + mask">
-              </figure>
+          <div class="card">
+              <div class="card-image">
+                <figure class="image is-3by4">
+                  <img :src="'data:image/png;base64,' + mask">
+                </figure>
+              </div>
+            </div>
+        </div>
+        <div v-else-if="error" class="column is-two-thirds">
+          <h2 class="subtitle is-2">Error</h2>
+          <div class="message is-danger">
+            <div class="message-body">
+              <pre v-highlightjs><code>{{ error }}</code></pre>
             </div>
           </div>
-          <template v-else-if="error">
-            <div class="message is-danger">
-              <div class="message-header">
-                Error
-              </div>
-              <div class="message-body">
-                <pre v-highlightjs><code>{{ error }}</code></pre>
-              </div>
-            </div>
-          </template>
         </div>
       </div>
     </div>
   </script>
-  <script src="assets/js/vue.js"></script>
-  <script src="assets/js/axios.min.js"></script>
-  <script src="assets/js/highlight.pack.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/vue@2.6.10"></script>
+  <script src="//cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/highlightjs@9.12.0/highlight.pack.min.js"></script>
   <script src="index.js"></script>
 </body>
 </html>
