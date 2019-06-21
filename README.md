@@ -4,32 +4,18 @@ This demo was originally built for [picsart.ai](https://www.picsart.ai/) hackath
 
 ## Requirements
 
-* Download `unet-resnext50` weights using a source link under `backend/resource`.
+* Download `unet-resnext50` weights using a source link under `back/resource`.
 
-## Backend
+## Running
 
-### Installation
+Use docker-compose to fire backend + frontend + proxy:
 
-* `pip install -r requirements.txt`
+* `docker-compose up`
 
-### Running
-
-* `python app.py`
-
-## Frontend
-
-### Installation
-
-* Use digitalocean manual on [nginx installation](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04-quickstart);
-* Use digitalocean manual on [securing nginx](https://linuxize.com/post/secure-nginx-with-let-s-encrypt-on-ubuntu-18-04/).
-
-### Running
-
-* Use configs provided in `nginx/` to setup your frontend + backend proxy.
-
-## Reference
+## References
 
 * https://pytorch.org/
-* https://bulma.io/
 * https://vuejs.org/
-* https://nginx.org/
+* https://bulma.io/
+* https://traefik.io/
+* https://docs.docker.com/compose/
