@@ -20,7 +20,7 @@ def sanitize(state_dict):
 
 
 def load_state(path):
-    state = torch.load(path, map_location=lambda storage, loc: storage)
+    state = torch.load(path, map_location='cpu')
     if 'state_dict' in state:
         state = state['state_dict']
     state = sanitize(state)

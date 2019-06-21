@@ -1,0 +1,49 @@
+version: "3.5"
+
+services:
+  traefik:
+    image: traefik:1.7
+    command: --api --docker --logLevel=INFO
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - nizhib
+    ports:
+      - 80:80
+    labels:
+      - traefik.back=traefik
+      - traefik.port=8080
+      - traefik.frontend.rule=Host:traefik.localhost
+    container_name: traefik
+
+  portrait-front:
+    image: nginx:1.17-alpine
+    volumes:
+      - ./front:/usr/share/nginx/html:ro
+    networks:
+      nizhib:
+        aliases:
+          - portrait.localhost
+    expose:
+      - 80
+    labels:
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:portrait.localhost
+
+  portrait-back:
+    build:
+      context: back
+      dockerfile: Dockerfile
+    networks:
+      - nizhib
+    expose:
+      - 5000
+    labels:
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:portrait.localhost;PathPrefix:/api;PathPrefixStrip:/api
+
+networks:
+  nizhib:
+    name: nizhib
+    driver: bridge

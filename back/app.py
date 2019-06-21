@@ -47,7 +47,8 @@ def handle():
             blob = io.BytesIO(requests.get(data['url']).content)
             img = Image.open(blob).convert('RGB')
         else:
-            raise ValueError(f'No image source found in request fields: {data.keys()}')
+            raise ValueError(
+                f'No image source found in request fields: {data.keys()}')
 
         mask = segmentator.predict(img)
         mask = (mask * 255).astype(np.uint8)

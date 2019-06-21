@@ -2,14 +2,18 @@ FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
 
 LABEL maintainer="Evgeny Nizhibitsky <nizhib@github.com>"
 
-# Install ubuntu base packages
+# Install ubuntu packages
 
-RUN apt-get update
-RUN apt-get install -y python3-pip
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        libglib2.0-0 \
+        python3-pip \
+        python3-setuptools && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install python packages
 
-WORKDIR /opt/portrait-demo/backend/
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
