@@ -6,9 +6,7 @@ services:
     volumes:
       - ./front:/usr/share/nginx/html:ro
     networks:
-      nizhib:
-        aliases:
-          - portrait.localhost
+      - nizhib
     expose:
       - 80
     labels:
