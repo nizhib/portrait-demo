@@ -1,7 +1,7 @@
 version: "3.5"
 
 services:
-  front:
+  portrait-front:
     image: nginx:1.17-alpine
     volumes:
       - ./front:/usr/share/nginx/html:ro
@@ -9,11 +9,12 @@ services:
       - nizhib
     expose:
       - 80
+    restart: always
     labels:
       - traefik.enable=true
       - traefik.frontend.rule=Host:portrait.nizhib.ai
 
-  back:
+  portrait-back:
     build:
       context: back
       dockerfile: Dockerfile
@@ -21,6 +22,7 @@ services:
       - nizhib
     expose:
       - 5000
+    restart: always
     labels:
       - traefik.enable=true
       - traefik.frontend.rule=Host:portrait.nizhib.ai;PathPrefix:/api;PathPrefixStrip:/api
