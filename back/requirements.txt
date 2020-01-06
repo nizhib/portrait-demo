@@ -5,4 +5,4 @@ Pillow==6.2.0
 requests==2.21.0
 torch==1.0.1.post2
 torchvision==0.2.1
-waitress==1.4.0
+waitress==1.4.1
