@@ -2,25 +2,32 @@ version: "3.5"
 
 services:
   traefik:
-    image: traefik:1.7
-    command: --api --docker --logLevel=INFO
-    restart: always
+    image: traefik:2.2
+    container_name: traefik
+    command:
+      # - --log.level=DEBUG
+      - --api.dashboard
+      - --api.insecure
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.http.address=:80
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - nizhib
     ports:
       - 80:80
+      - 8080:8080
     labels:
-      - traefik.back=traefik
-      - traefik.port=8080
-      - traefik.frontend.rule=Host:traefik.localhost
-    container_name: traefik
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`traefik.localhost`)
+      - traefik.http.routers.api.entrypoints=http
+      - traefik.http.routers.api.service=api@internal
 
   portrait-front:
-    image: nginx:1.17-alpine
-    volumes:
-      - ./front:/usr/share/nginx/html:ro
+    build:
+      context: front
+      dockerfile: Dockerfile
     networks:
       nizhib:
         aliases:
@@ -29,7 +36,8 @@ services:
       - 80
     labels:
       - traefik.enable=true
-      - traefik.frontend.rule=Host:portrait.localhost
+      - traefik.http.routers.portrait-front.entrypoints=http
+      - traefik.http.routers.portrait-front.rule=Host(`portrait.localhost`)
 
   portrait-back:
     build:
@@ -41,7 +49,10 @@ services:
       - 5000
     labels:
       - traefik.enable=true
-      - traefik.frontend.rule=Host:portrait.localhost;PathPrefix:/api;PathPrefixStrip:/api
+      - traefik.http.routers.portrait-back.entrypoints=https
+      - traefik.http.routers.portrait-back.rule=Host(`portrait.localhost`) && PathPrefix(`/api`)
+      - traefik.http.routers.portrait-back.middlewares=remove-api
+      - traefik.http.middlewares.remove-api.stripprefix.prefixes=/api
 
 networks:
   nizhib:

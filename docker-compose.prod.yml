@@ -2,9 +2,9 @@ version: "3.5"
 
 services:
   portrait-front:
-    image: nginx:1.17-alpine
-    volumes:
-      - ./front:/usr/share/nginx/html:ro
+    build:
+      context: front
+      dockerfile: Dockerfile
     networks:
       - nizhib
     expose:
@@ -12,7 +12,9 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.frontend.rule=Host:portrait.nizhib.ai
+      - traefik.http.routers.portrait-front.entrypoints=https
+      - traefik.http.routers.portrait-front.rule=Host(`portrait.nizhib.ai`)
+      - traefik.http.routers.portrait-front.tls.certresolver=nizhib
 
   portrait-back:
     build:
@@ -25,7 +27,11 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.frontend.rule=Host:portrait.nizhib.ai;PathPrefix:/api;PathPrefixStrip:/api
+      - traefik.http.routers.portrait-back.entrypoints=https
+      - traefik.http.routers.portrait-back.rule=Host(`portrait.nizhib.ai`) && PathPrefix(`/api`)
+      - traefik.http.routers.portrait-back.tls.certresolver=nizhib
+      - traefik.http.routers.portrait-back.middlewares=remove-api
+      - traefik.http.middlewares.remove-api.stripprefix.prefixes=/api
 
 networks:
   nizhib:

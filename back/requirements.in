@@ -1,0 +1,8 @@
+Flask
+imageio
+numpy
+Pillow
+requests
+torch
+torchvision
+waitress

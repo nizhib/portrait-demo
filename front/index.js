@@ -2,7 +2,7 @@ Vue.directive("highlightjs", {
     deep: true,
     bind: function (el, binding) {
         // on first bind, highlight all targets
-        var targets = el.querySelectorAll("code");
+        const targets = el.querySelectorAll("code");
         targets.forEach(function (target) {
             // if a value is directly assigned to the directive,
             // use this instead of the element content.
@@ -15,7 +15,7 @@ Vue.directive("highlightjs", {
     },
     componentUpdated: function (el, binding) {
         // after an update, re-fill the content and then highlight
-        var targets = el.querySelectorAll("code");
+        const targets = el.querySelectorAll("code");
         targets.forEach(function (target) {
             if (binding.value) {
                 target.textContent = binding.value;
@@ -32,10 +32,11 @@ if (!window.location.origin) {
         (window.location.port ? ":" + window.location.port: "");
 }
 
-var app = new Vue({
+const app = new Vue({
     el: "#app",
     template: "#portrait",
     data: {
+        date: 2020,
         endpoint: window.location.origin + "/api/",
         url: "",
         preview: true,
@@ -43,13 +44,17 @@ var app = new Vue({
         error: "",
         mask: ""
     },
+    created() {
+        const today = new Date();
+        this.date = today.getFullYear();
+    },
     methods: {
-        clear: function () {
+        clear() {
             this.error = "";
             this.mask = "";
         },
-        segment: function () {
-            var vm = this;
+        segment() {
+            const vm = this;
 
             vm.clear();
             vm.state = "segment";
@@ -58,7 +63,7 @@ var app = new Vue({
                 url: vm.url
             })
             .then(function (response) {
-                var result = response.data;
+                const result = response.data;
 
                 if (result["success"]) {
                     vm.mask = result["data"]["mask"];
@@ -79,8 +84,8 @@ var app = new Vue({
             });
         }
     },
-    mounted: function () {
-        var index = Math.floor(Math.random() + 1.5).toString();
+    mounted() {
+        const index = Math.floor(Math.random() + 1.5).toString();
         this.url = window.location.origin + "/assets/images/sample" + index + ".jpg";
     }
 });

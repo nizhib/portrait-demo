@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.2-cudnn7-runtime-ubuntu18.04
 
 LABEL maintainer="Evgeny Nizhibitsky <nizhib@github.com>"
 
@@ -8,7 +8,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libglib2.0-0 \
         python3-pip \
-        python3-setuptools && \
+        python3-setuptools \
+        python3-wheel && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
