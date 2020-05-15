@@ -15,8 +15,10 @@ RUN apt-get update && \
 
 # Install python packages
 
+RUN pip3 --no-cache-dir install -U pip
+
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+RUN pip3 --no-cache-dir install -r requirements.txt
 
 # Copy project files
 
