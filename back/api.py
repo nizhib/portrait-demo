@@ -43,14 +43,8 @@ class Segmentator(object):
     ])
 
     def __init__(self):
-        self.net = unet_resnext50(num_classes=1)
+        self.net = unet_resnext50(num_classes=1, pretrained=True)
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
-    def load(self, checkpoint_path):
-        state = load_state(checkpoint_path)
-        self.net.load_state_dict(state)
-        self.net.eval()
-        self.net.to(self.device)
 
     @torch.no_grad()
     def predict(self, image):

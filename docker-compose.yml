@@ -49,7 +49,7 @@ services:
       - 5000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.portrait-back.entrypoints=https
+      - traefik.http.routers.portrait-back.entrypoints=http
       - traefik.http.routers.portrait-back.rule=Host(`portrait.localhost`) && PathPrefix(`/api`)
       - traefik.http.routers.portrait-back.middlewares=remove-api
       - traefik.http.middlewares.remove-api.stripprefix.prefixes=/api

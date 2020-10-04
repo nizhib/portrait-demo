@@ -2,15 +2,11 @@
 
 This demo was originally built for [picsart.ai](https://www.picsart.ai/) hackathon.
 
-## Requirements
-
-* Download `unet-resnext50` weights using a source link under `back/resource`.
-
 ## Running
 
 Use docker-compose to fire backend + frontend + proxy:
 
-* `docker-compose up`
+* `docker-compose up --build`
 
 ## References
 
