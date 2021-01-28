@@ -43,13 +43,14 @@ class Segmentator(object):
     ])
 
     def __init__(self):
-        self.net = unet_resnext50(num_classes=1, pretrained=True)
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.net = unet_resnext50(num_classes=1, pretrained=True)
+        self.net.to(self.device)
 
     @torch.no_grad()
     def predict(self, image):
-        image = self.preprocess(image)
-        tensor = torch.stack((image,)).to(self.device)
+        image = self.preprocess(image).to(self.device)
+        tensor = torch.stack([image]).to(self.device)
         logits = self.net(tensor)
         probs = torch.sigmoid(logits).data[0, 0, :, 8:-8].to('cpu').numpy()
         return probs
