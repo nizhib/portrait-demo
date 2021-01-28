@@ -2,7 +2,7 @@
 
 ![Demo screenshot](docs/example.png "Demo screenshot")
 
-This demo was originally built for [picsart.ai](https://www.picsart.ai/) hackathon.
+This original demo was built for [picsart.ai](https://www.picsart.ai/) hackathon.
 
 ## Running
 
@@ -14,6 +14,6 @@ Use docker-compose to fire backend + frontend + proxy:
 
 * https://pytorch.org/
 * https://vuejs.org/
-* https://bulma.io/
+* https://tailwindcss.com/
 * https://traefik.io/
 * https://docs.docker.com/compose/

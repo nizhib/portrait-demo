@@ -4,7 +4,7 @@
     class="flex flex-col min-h-screen bg-gray-100"
   >
     <TheHeader title="Portrait Segmentation" />
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1">
       <Segmentator />
     </main>
     <TheFooter />
