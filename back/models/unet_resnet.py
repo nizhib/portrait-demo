@@ -14,7 +14,7 @@ from .utils import inspect_model
 __all__ = ['unet_resnext50']
 
 model_urls = {
-    'unet_resnext50': 'https://sota.nizhib.ai/portrait/unet_resnext50-eae871c0.pth'
+    'unet_resnext50': 'https://github.com/nizhib/portrait-demo/releases/download/v0.1/unet_resnext50-eae871c0.pth'
 }
 
 
