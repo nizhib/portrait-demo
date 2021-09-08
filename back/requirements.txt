@@ -28,7 +28,7 @@ numpy==1.19.5
     #   imageio
     #   torch
     #   torchvision
-pillow==8.1.0
+pillow==8.3.2
     # via
     #   -r requirements.in
     #   imageio
