@@ -1,8 +1,0 @@
-flask
-imageio
-numpy
-pillow
-requests
-torch
-torchvision
-waitress

@@ -2,15 +2,16 @@
 Made by @nizhib
 """
 
+from typing import List
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-from ..layers import conv3x3
+from torchvision.models.resnet import conv3x3
 
 
 class DecoderBlock(nn.Module):
-    def __init__(self, down_channels, left_channels):
+    def __init__(self, down_channels: int, left_channels: int) -> None:
         super().__init__()
 
         self.upconv = conv3x3(down_channels, left_channels)
@@ -21,10 +22,10 @@ class DecoderBlock(nn.Module):
         self.bn2 = nn.BatchNorm2d(left_channels)
         self.relu2 = nn.ReLU()
 
-    def forward(self, down, left):
+    def forward(self, down: torch.Tensor, left: torch.Tensor) -> torch.Tensor:
         if down.shape[2] != left.shape[2]:
             size = (left.shape[2], left.shape[3])
-            down = F.interpolate(down, size=size, mode='bilinear', align_corners=False)
+            down = F.interpolate(down, size=size, mode="bilinear", align_corners=False)
         x = self.upconv(down)
         x = torch.cat((left, x), 1)
         x = self.conv1(x)
@@ -37,14 +38,14 @@ class DecoderBlock(nn.Module):
 
 
 class UNetDecoder(nn.Module):
-    def __init__(self, features):
+    def __init__(self, features: List[int]) -> None:
         super().__init__()
 
         self.blocks = nn.ModuleList()
         for down_channels, left_channels in zip(features[-1:0:-1], features[-2::-1]):
             self.blocks.append(DecoderBlock(down_channels, left_channels))
 
-    def forward(self, acts):
+    def forward(self, acts: List[torch.Tensor]) -> torch.Tensor:
         up = acts[-1]
         for left, block in zip(acts[-2::-1], self.blocks):
             up = block(up, left)

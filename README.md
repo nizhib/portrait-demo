@@ -6,14 +6,16 @@ This original demo was built for [picsart.ai](https://www.picsart.ai/) hackathon
 
 ## Running
 
-Use docker-compose to fire backend + frontend + proxy:
+Use docker compose to start backend, frontend and proxy:
 
-* `docker-compose up --build`
+```bash
+docker compose up --build
+```
 
 ## References
 
-* https://pytorch.org/
-* https://vuejs.org/
-* https://tailwindcss.com/
-* https://traefik.io/
-* https://docs.docker.com/compose/
+- [https://pytorch.org/](https://pytorch.org/)
+- [https://svelte.dev/](https://svelte.dev/)
+- [https://tailwindcss.com/](https://tailwindcss.com/)
+- [https://traefik.io/](https://traefik.io/)
+- [https://docs.docker.com/](https://docs.docker.com/)

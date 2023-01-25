@@ -1,31 +1,39 @@
-FROM nvidia/cuda:10.2-cudnn7-runtime-ubuntu18.04
+FROM python:3.10-slim as python
 
 LABEL maintainer="Evgeny Nizhibitsky <nizhib@github.com>"
 
-# Install ubuntu packages
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PIP_DEFAULT_TIMEOUT=60
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        libglib2.0-0 \
-        python3-pip \
-        python3-setuptools \
-        python3-wheel && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-# Install python packages
+# Build the deps
 
-RUN pip3 --no-cache-dir install -U pip
+FROM python as build
 
-COPY requirements.txt .
-RUN pip3 --no-cache-dir install -r requirements.txt
+ENV POETRY_VERSION=1.3.2
+ENV POETRY_HOME=/opt/poetry
+ENV POETRY_VIRTUALENVS_IN_PROJECT=true
+ENV PATH="$POETRY_HOME/bin:$PATH"
 
-# Copy project files
+RUN pip install "poetry==$POETRY_VERSION"
+COPY pyproject.toml poetry.lock /app/
+RUN poetry install --no-interaction --no-ansi -vvv
 
+# Build the app
+
+FROM python as runtime
+
+ARG CHECKPOINTS_ROOT=/root/.cache/torch/hub/checkpoints/
+ARG UNET_URL=https://github.com/nizhib/portrait-demo/releases/download/v0.3/unet_resnext50-46a04131.pth
+ADD ${UNET_URL} ${CHECKPOINTS_ROOT}
+
+COPY --from=build /app /app
 COPY . .
 
-# Run the service
-
+ENV PATH="/app/.venv/bin:$PATH"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-CMD python3 -u app.py
+CMD python3 app.py

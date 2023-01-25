@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "portrait-back"
+version = "0.3.0"
+description = ""
+authors = ["Evgeny Nizhibitsky <nizhib@github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.89.1"
+httpx = "^0.23.3"
+imageio = "^2.25.0"
+numpy = "^1.24.1"
+torch = [
+  {platform = "linux", url = "https://download.pytorch.org/whl/cpu/torch-1.13.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
+  {platform = "win32", url = "https://download.pytorch.org/whl/cpu/torch-1.13.1%2Bcpu-cp310-cp310-win_amd64.whl"}
+]
+torchvision = [
+  {platform = "linux", url = "https://download.pytorch.org/whl/cpu/torchvision-0.14.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
+  {platform = "win32", url = "https://download.pytorch.org/whl/cpu/torchvision-0.14.1%2Bcpu-cp310-cp310-win_amd64.whl"}
+]
+ujson = "^5.7.0"
+uvicorn = {extras = ["standard"], version = "^0.20.0"}
+pydantic = "^1.10.4"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
