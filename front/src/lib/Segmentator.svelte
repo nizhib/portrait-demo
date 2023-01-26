@@ -14,22 +14,28 @@
     data?: HavingMask;
   };
 
-  const placeholder = 'https://placeimg.com/480/640/any';
-  let url = '';
   let data: HavingData = {};
   let error = '';
 
-  onMount(() => {
-    const origin =
-      typeof window !== 'undefined' && window.location.origin
-        ? window.location.origin
-        : '';
-    const sample1 = `${origin}/images/sample1.jpg`;
-    const sample2 = `${origin}/images/sample2.jpg`;
-    url = Math.random() > 0.5 ? sample1 : sample2;
-  });
+  const placeholder = 'https://placeimg.com/480/640/any';
+  let url = '';
+  let width: number = undefined;
+  let height: number = undefined;
+
+  const samples = [
+    { url: '/images/sample1.webp', width: 597, height: 800 },
+    { url: '/images/sample2.webp', width: 450, height: 657 },
+  ];
+  ({ url, width, height } = samples[Math.floor(Math.random() * samples.length)]);
+
+  onMount(() => (url = `${window.location.origin}${url}`));
+  $: photoUrl = url || placeholder;
 
   function reset() {
+    if (!url.startsWith('/') && !url.startsWith(window.location.origin)) {
+      width = undefined;
+      height = undefined;
+    }
     data = {};
     error = '';
   }
@@ -54,7 +60,7 @@
     on:fetch={handleFetch}
     on:error={handleError}
   />
-  <PhotoCard src={url || placeholder} />
+  <PhotoCard src={photoUrl} {width} {height} />
   {#if mask}
     <MaskCard {mask} />
   {/if}
