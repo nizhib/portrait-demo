@@ -11,7 +11,6 @@ import sys
 import time
 from dataclasses import dataclass, asdict
 from http import HTTPStatus
-from pathlib import Path
 
 import httpx
 import numpy as np
@@ -87,13 +86,3 @@ def segment(image: ImageOrUrl) -> JSONResponse:
     result.total = time.process_time() - start
 
     return JSONResponse(asdict(result), status_code=status)
-
-
-if __name__ == "__main__":
-    name = Path(__file__).stem
-    if len(sys.argv) > 1:
-        port = int(sys.argv[1])
-    else:
-        port = 5000
-
-    uvicorn.run(f"{name}:app", host="0.0.0.0", port=port, log_level="debug")

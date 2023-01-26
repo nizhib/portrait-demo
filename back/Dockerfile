@@ -36,4 +36,4 @@ COPY . .
 ENV PATH="/app/.venv/bin:$PATH"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-CMD python3 app.py
+CMD ["uvicorn", "app:app", "--host=0.0.0.0", "--port=5000", "--log-level=debug"]
