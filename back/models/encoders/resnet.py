@@ -2,10 +2,10 @@
 Made by @nizhib
 """
 
-from typing import Callable, List, Optional
+from collections.abc import Callable
 
 import torch
-import torch.nn as nn
+from torch import nn
 from torchvision.models.resnet import ResNet, WeightsEnum
 
 
@@ -21,7 +21,7 @@ class ResNetEncoder(nn.Module):
     """
 
     def __init__(
-        self, arch: Callable[..., ResNet], weights: Optional[WeightsEnum] = None
+        self, arch: Callable[..., ResNet], weights: WeightsEnum | None = None
     ) -> None:
         super().__init__()
 
@@ -48,8 +48,8 @@ class ResNetEncoder(nn.Module):
             ]
         ]
 
-    def forward(self, x: torch.Tensor) -> List[torch.Tensor]:
-        activations = []
+    def forward(self, x: torch.Tensor) -> list[torch.Tensor]:
+        activations: list[torch.Tensor] = []
         x = self.encoder0(x)
         activations.append(x)
         x = self.encoder1(x)

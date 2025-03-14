@@ -1,30 +1,38 @@
-[tool.poetry]
+[project]
 name = "portrait-back"
-version = "0.3.0"
-description = ""
-authors = ["Evgeny Nizhibitsky <nizhib@github.com>"]
-
-[tool.poetry.dependencies]
-python = "^3.9"
-fastapi = "^0.89.1"
-httpx = "^0.23.3"
-imageio = "^2.25.0"
-numpy = "^1.24.1"
-torch = [
-  {platform = "linux", url = "https://download.pytorch.org/whl/cpu/torch-1.13.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
-  {platform = "win32", url = "https://download.pytorch.org/whl/cpu/torch-1.13.1%2Bcpu-cp310-cp310-win_amd64.whl"}
+version = "0.4.0"
+description = "Portrait Segmentation Demo"
+authors = [{ name = "Evgeny Nizhibitsky", email = "nizhib@github.com" }]
+dependencies = [
+  "fastapi~=0.115.11",
+  "httpx~=0.28.1",
+  "imageio~=2.37.0",
+  "numpy~=2.2.3",
+  "torch~=2.6.0",
+  "torchvision~=0.21.0",
+  "ujson~=5.10.0",
+  "uvicorn[standard]~=0.34.0",
+  "pydantic~=2.10.6",
 ]
-torchvision = [
-  {platform = "linux", url = "https://download.pytorch.org/whl/cpu/torchvision-0.14.1%2Bcpu-cp310-cp310-linux_x86_64.whl"},
-  {platform = "win32", url = "https://download.pytorch.org/whl/cpu/torchvision-0.14.1%2Bcpu-cp310-cp310-win_amd64.whl"}
-]
-ujson = "^5.7.0"
-uvicorn = {extras = ["standard"], version = "^0.20.0"}
-pydantic = "^1.10.4"
+requires-python = ">=3.12"
+license = { text = "MIT License" }
 
-[tool.poetry.group.dev.dependencies]
-black = "^22.12.0"
+[project.urls]
+Homepage = "https://portrait.nizhib.ai"
+Repository = "https://github.com/nizhib/portrait-demo"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = ["ruff>=0.10.0"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+pythonPlatform = "Linux"
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+torchvision = [{ index = "pytorch-cpu" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

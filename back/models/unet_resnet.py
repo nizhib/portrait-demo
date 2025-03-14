@@ -2,7 +2,7 @@
 Made by @nizhib
 """
 
-from typing import Callable
+from collections.abc import Callable
 
 import torch
 from torch import nn
@@ -45,12 +45,11 @@ def unet_resnext50(
     if pretrained:
         if num_classes != 1:
             raise ValueError("Pretrained weights are for num_classes=1 only")
-        state_dict = load_state_dict_from_url(
-            model_urls["unet_resnext50"], progress=progress
-        )
-        mkeys = set(model.state_dict().keys())
-        skeys = set(state_dict.keys())
-        print(list(mkeys - skeys))
-        print(list(skeys - mkeys))
-        model.load_state_dict(state_dict)
+        try:
+            state_dict = load_state_dict_from_url(
+                model_urls["unet_resnext50"], progress=progress
+            )
+            model.load_state_dict(state_dict, strict=True)
+        except Exception as e:
+            raise RuntimeError(f"Error loading pretrained weights: {e}") from e
     return model
