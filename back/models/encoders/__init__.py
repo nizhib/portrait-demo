@@ -1,1 +1,1 @@
-from .resnet import ResNetEncoder
+from .resnet import ResNetEncoder  # noqa: F401

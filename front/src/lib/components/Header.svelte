@@ -1,7 +1,11 @@
 <script lang="ts">
   import Container from './ui/Container.svelte';
 
-  export let title: string;
+  interface Props {
+    title: string;
+  }
+
+  let { title }: Props = $props();
 </script>
 
 <header class="bg-blue-600 shadow">

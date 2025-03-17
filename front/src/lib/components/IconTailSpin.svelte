@@ -1,6 +1,9 @@
 <script lang="ts">
-  let className = '';
-  export { className as class };
+  interface Props {
+    class: string;
+  }
+
+  let { class: className }: Props = $props();
 </script>
 
 <!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->

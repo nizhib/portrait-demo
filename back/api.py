@@ -2,6 +2,8 @@
 Made by @nizhib
 """
 
+from typing import ClassVar
+
 import numpy as np
 from PIL import Image
 
@@ -11,11 +13,10 @@ import torchvision.transforms.functional as F
 from models import unet_resnext50
 
 
-class Segmentator:
-    size = (320, 320)
-    step = 32
-    mean = [0.485, 0.456, 0.406]
-    std = [0.229, 0.224, 0.225]
+class Segmenter:
+    size: ClassVar[tuple[int, int]] = (320, 320)
+    mean: ClassVar[list[float]] = [0.485, 0.456, 0.406]
+    std: ClassVar[list[float]] = [0.229, 0.224, 0.225]
 
     def __init__(self, step: int = 32) -> None:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"

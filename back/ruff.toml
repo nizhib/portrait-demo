@@ -1,0 +1,38 @@
+[lint]
+select = [
+  "F",    # Pyflakes
+  "E",    # pycodestyle
+  "N",    # pep8-naming
+  "UP",   # pyupgrade
+  "ANN",  # flake8-annotations
+  "B",    # flake8-bugbear
+  "A",    # flake8-builtin
+  "C4",   # flake8-comprehensions
+  "ICN",  # flake8-import-conventions
+  "RET",  # flake8-return
+  "SIM",  # flake8-simplify
+  "ARG",  # flake8-unused-arguments
+  "PTH",  # flake8-use-pathlib
+  "PD",   # pandas-vet
+  "PL",   # Pylint
+  "NPY",  # NumPy
+  "PERF", # Perflint
+  "RUF",  # ruff-specific
+]
+ignore = [
+  "N812",   # Lowercase imported as non-lowercase
+  "RET504", # Unnecessary assignment before `return` statement
+]
+
+[lint.isort]
+section-order = [
+  "future",
+  "standard-library",
+  "third-party",
+  "deeplearning",
+  "first-party",
+  "local-folder",
+]
+
+[lint.isort.sections]
+deeplearning = ["torch", "torchvision"]

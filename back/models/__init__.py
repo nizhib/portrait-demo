@@ -1,4 +1,4 @@
-from .unet_resnet import *
+from .unet_resnet import *  # noqa: F403
 
 names = sorted(
     name

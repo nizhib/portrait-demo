@@ -1,1 +1,1 @@
-from .unet import UNetDecoder
+from .unet import UNetDecoder  # noqa: F401

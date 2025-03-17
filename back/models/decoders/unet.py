@@ -2,11 +2,9 @@
 Made by @nizhib
 """
 
-from typing import List
-
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 from torchvision.models.resnet import conv3x3
 
 
@@ -38,15 +36,17 @@ class DecoderBlock(nn.Module):
 
 
 class UNetDecoder(nn.Module):
-    def __init__(self, features: List[int]) -> None:
+    def __init__(self, features: list[int]) -> None:
         super().__init__()
 
         self.blocks = nn.ModuleList()
-        for down_channels, left_channels in zip(features[-1:0:-1], features[-2::-1]):
+        for down_channels, left_channels in zip(
+            features[-1:0:-1], features[-2::-1], strict=True
+        ):
             self.blocks.append(DecoderBlock(down_channels, left_channels))
 
-    def forward(self, acts: List[torch.Tensor]) -> torch.Tensor:
+    def forward(self, acts: list[torch.Tensor]) -> torch.Tensor:
         up = acts[-1]
-        for left, block in zip(acts[-2::-1], self.blocks):
+        for left, block in zip(acts[-2::-1], self.blocks, strict=True):
             up = block(up, left)
         return up
