@@ -1,8 +1,12 @@
-// eslint-disable-next-line import/no-unresolved
+import adapter from 'svelte-adapter-bun';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-export default {
-  // Consult https://svelte.dev/docs#compile-time-svelte-preprocess
-  // for more information about preprocessors
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
   preprocess: vitePreprocess(),
+  kit: {
+    adapter: adapter(),
+  },
 };
+
+export default config;

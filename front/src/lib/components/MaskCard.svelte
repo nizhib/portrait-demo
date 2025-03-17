@@ -1,8 +1,12 @@
 <script lang="ts">
   import Card from './ui/Card.svelte';
 
-  export let mask: string;
-  const src = `data:image/png;base64,${mask}`;
+  interface Props {
+    mask: string;
+  }
+
+  let { mask }: Props = $props();
+  let src = $derived(`data:image/png;base64,${mask}`);
 </script>
 
 <Card>

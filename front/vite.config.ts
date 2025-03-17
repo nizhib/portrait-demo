@@ -1,11 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies,import/no-unresolved */
+import tailwindcss from '@tailwindcss/vite';
+import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-// import eslint from 'vite-plugin-eslint';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [tailwindcss(), sveltekit()],
   server: {
     proxy: {
       '/api': {
@@ -14,4 +12,5 @@ export default defineConfig({
       },
     },
   },
+  publicDir: 'static',
 });

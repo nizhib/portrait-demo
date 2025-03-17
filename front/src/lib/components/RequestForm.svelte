@@ -1,21 +1,24 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { image } from '$lib/store.svelte';
   import IconTailSpin from './IconTailSpin.svelte';
 
-  export let placeholder: string;
-  export let url: string;
-  let loading = false;
+  interface Props {
+    onStart: () => void;
+    onFetch: (data: any) => void;
+    onError: (message: string) => void;
+  }
 
-  const dispatch = createEventDispatcher();
+  let { onStart, onFetch, onError }: Props = $props();
+  let isLoading = $state(false);
 
   async function handleSubmit() {
-    loading = true;
-    dispatch('start');
+    isLoading = true;
+    onStart();
     try {
       const response = await fetch('/api/segment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url: image.url }),
       });
       if (!response.ok) {
         let message = await response.text();
@@ -25,17 +28,17 @@
           // ignore
         } finally {
           message ||= `${response.status}: ${response.statusText}`;
-          dispatch('error', message);
+          onError(message);
         }
       } else {
         const data = await response.json();
-        dispatch('fetch', data);
+        onFetch(data);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      dispatch('error', message);
+      onError(message);
     } finally {
-      loading = false;
+      isLoading = false;
     }
   }
 </script>
@@ -46,18 +49,18 @@
     <input
       id="url"
       type="text"
-      bind:value={url}
+      bind:value={image.url}
       class="block w-full rounded-none border-gray-300 focus:border-blue-500 focus:ring-blue-500 sm:rounded-l-md"
-      {placeholder}
+      placeholder="https://example.com/photo.jpg"
     />
   </div>
   <button
     class="relative -ml-px inline-flex h-12 w-24 items-center justify-center space-x-2 border border-blue-700 bg-blue-600 px-4 py-2 font-medium text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 enabled:hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:rounded-r-md"
-    disabled={!url || loading}
-    on:click={handleSubmit}
+    disabled={!image.url || isLoading}
+    onclick={handleSubmit}
     type="submit"
   >
-    {#if loading}
+    {#if isLoading}
       <IconTailSpin class="h-6 w-6" />
     {:else}
       <span>Poehali!</span>
