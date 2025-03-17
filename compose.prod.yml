@@ -1,4 +1,4 @@
-version: "3.5"
+name: nizhib
 
 services:
   portrait-front:
@@ -8,12 +8,12 @@ services:
     networks:
       - nizhib
     expose:
-      - 80
+      - 3000
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.portrait-front.entrypoints=https
       - traefik.http.routers.portrait-front.rule=Host(`portrait.nizhib.ai`)
+      - traefik.http.routers.portrait-front.entrypoints=https
       - traefik.http.routers.portrait-front.tls.certresolver=nizhib
 
   portrait-back:
@@ -27,8 +27,8 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.portrait-back.entrypoints=https
       - traefik.http.routers.portrait-back.rule=Host(`portrait.nizhib.ai`) && PathPrefix(`/api`)
+      - traefik.http.routers.portrait-back.entrypoints=https
       - traefik.http.routers.portrait-back.tls.certresolver=nizhib
       - traefik.http.routers.portrait-back.middlewares=remove-api
       - traefik.http.middlewares.remove-api.stripprefix.prefixes=/api
